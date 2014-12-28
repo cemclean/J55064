@@ -1,0 +1,61 @@
+/*-------------------------------------------------------------------+                             
+*  Raw Materials Cost and Usage                                      +                             
+*                                                                    +                             
+*  T23382  10.21.2014 Charlie McLean                                 +                             
+*          started                                                   +                             
+*                                                                    +                             
+*-------------------------------------------------------------------*/                             
+                                                                                                    
+START:      PGM PARM(&FY)                                                                          
+                                                                                                    
+             DCL &TYPE      *CHAR LEN(1)                                                            
+             DCL &NBR       *CHAR LEN(6)                                                            
+             DCL &FY        *CHAR LEN(2)  /* fiscal year             */                             
+                                                                                                    
+             DCL &TOSTMF    *CHAR LEN(31) /* to stream file          */                             
+                           
+                                                                                                    
+/* main program                                                      */                             
+/*-------------------------------------------------------------------*/                             
+             RTVJOBA    NBR(&NBR) TYPE(&TYPE)                                                       
+             GOTO       CMDLBL(NOBATCH)                                                             
+                                                                                                    
+/* submit to batch if interactive                                    */                             
+             IF         COND(&TYPE *EQ '1') THEN(DO)                                                
+             SBMJOB     CMD(CALL PGM(J55064) PARM(&FY))                                             
+             GOTO       CMDLBL(END)                                                                 
+             ENDDO                                                                                  
+                                                                                                    
+NOBATCH:                                                                                            
+             ADDLIBLE   LIB(SERUSRDTA)                                                              
+             MONMSG     MSGID(CPF2103)                                                              
+                                                                                                    
+             CLRPFM     FILE(F55064)                                                                
+             RUNSQLSTM  SRCFILE(JDEOBJP/SERSRCLE) SRCMBR(S5506401) +                                
+                          COMMIT(*NONE)                                                             
+             CALL       PGM(P55064) PARM(&FY)                                                       
+                                                                                                    
+/* create stream file name                                           */                             
+             CHGVAR     VAR(&TOSTMF) VALUE('/fsus/reports/F55064-' +                                
+                          || &NBR || '.csv')                                                        
+                                                                                                    
+             CPYTOIMPF  FROMFILE(SERUSRDTA/F55064H) TOSTMF(&TOSTMF) +                               
+                          MBROPT(*REPLACE) STMFCODPAG(*PCASCII) +                                   
+                          RCDDLM(*CRLF)                                                             
+             CPYTOIMPF  FROMFILE(SERUSRDTA/F55064) TOSTMF(&TOSTMF) +                                
+                          MBROPT(*ADD) STMFCODPAG(*PCASCII) +                                       
+                          RCDDLM(*CRLF)                                                             
+             EMLRPTF    PARM1(&TOSTMF) PARM2(34012339) +                                            
+                          PARM3('jdeobjp/sersrcle/T55064')                                          
+                                                                                                    
+/*           Normal End of Program                                   */                             
+/*-------------------------------------------------------------------*/                             
+             RETURN                                                                                 
+                                                                                                    
+/*           Standard Error Handeling                                */                             
+/*-------------------------------------------------------------------*/                             
+STDERR:                                                                                            
+             SNDPGMMSG  MSGID(CPF9898) MSGF(QCPFMSG) +                                              
+                          MSGDTA('Program aborted on an expected +                                  
+                          escape mesage.') MSGTYPE(*ESCAPE)                                         
+END:        ENDPGM                                                                                 

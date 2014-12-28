@@ -1,0 +1,79 @@
+      *-----------------------------------------------------------------                            
+      *                                                                                             
+      * Raw Materials Costs w/Usage                                                                 
+      *                                                                                             
+      * T23383  11.11.2014 Charlie McLean                                                           
+      *         copied from P550631                                                                 
+      *                                                                                             
+      *                                                                                             
+      *-----------------------------------------------------------------                            
+     h option(*srcstmt:*nodebugio)                                                                  
+      *              sales history                                                                  
+     FF55064    UF   E           K DISK                                                             
+      *              IM alternate discription                                                       
+     FF4101D    IF   E           K DISK                                                             
+      *              CO itme cost ledger                                                            
+     FF4105LA   IF   E           K DISK                                                             
+      *              IH item history                                                                
+     FF4115LA   IF   E           K DISK                                                             
+                                                                                                    
+      // prototype for parameters pased (*ENTRY)                                                    
+     d Main            PR                  ExtPgm('P55064')                                         
+     d  $$fy                          2                                                             
+     d  $$hlf                         1                                                             
+      // procedure interface for parameters pased                                                   
+     d Main            PI                                                                           
+     d  $$fy                          2                                                             
+     d  $$hlf                         1                                                             
+      *                                                                                             
+     c  N98              EXSR      $INIT                                                            
+      /Free                                                                                         
+        read F55064;                                                                                
+        dou %eof(F55064);                                                                           
+          chain (X3ITM:'IN') F4101D;                                                                
+          if %found(F4101D);                                                                        
+            X3DSC1 = IMDSC1;                                                                        
+          endif;                                                                                    
+          chain (X3ITM:X3MCU:'01') F4105LA;                                                         
+          if %found(F4101D);                                                                        
+            X3CST01 = COUNCS/10000;                                                                 
+          endif;                                                                                    
+          chain (X3ITM:X3MCU:'07') F4105LA;                                                         
+          if %found(F4101D);                                                                        
+            X3CST07 = COUNCS/10000;                                                                 
+          endif;                                                                                    
+          chain (X3ITM:X3MCU:%int($$fy)) F4115lA;                                                   
+          if %found(F4115LA);                                                                       
+            X3SQ01 = IHSQ01/100;                                                                    
+            X3SQ02 = IHSQ02/100;                                                                    
+            X3SQ03 = IHSQ03/100;                                                                    
+            X3SQ04 = IHSQ04/100;                                                                    
+            X3SQ05 = IHSQ05/100;                                                                    
+            X3SQ06 = IHSQ06/100;                                                                    
+            X3SQ07 = IHSQ07/100;                                                                    
+            X3SQ08 = IHSQ08/100;                                                                    
+            X3SQ09 = IHSQ09/100;                                                                    
+            X3SQ10 = IHSQ10/100;                                                                    
+            X3SQ11 = IHSQ11/100;                                                                    
+            X3SQ12 = IHSQ12/100;                                                                    
+          endif;                                                                                    
+        X3FY = $$fy;                                                                                
+        update i55064;                                                                              
+        read F55064;                                                                                
+        enddo;                                                                                      
+        *inlr = *on;                                                                                
+                                                                                                    
+      /End-Free                                                                                     
+      *                                                                                             
+      *------------------------------------------------------  S001                                 
+      *                                                                                             
+     c     S001          BEGSR                                                                      
+     c     S001E         ENDSR                                                                      
+      *                                                                                             
+      *------------------------------------------------------ $init                                 
+     C     $INIT         BEGSR                                                                      
+      *                                                                                             
+      * $INIT has run                                                                               
+     C                   MOVE      *ON           *IN98                                              
+      *                                                                                             
+     C                   ENDSR                                                                      

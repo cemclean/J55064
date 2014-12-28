@@ -1,0 +1,40 @@
+/*----------------------------------------------------------------*/                                
+/*                                                                */                                
+/* List of raw materials 310 01 & 07 costs                        */                                
+/*                                                                */                                
+/* T23383  11.10.2014 Charlie McLean                              */                                
+/*         started                                                */                                
+/*                                                                */                                
+/*                                                                */                                
+/*----------------------------------------------------------------*/                                
+/* RUNSQLSTM (JDEOBJP/SERSRCLE) (S5506401) COMMIT(*NONE)          */                                
+/*----------------------------------------------------------------*/                                
+insert into serusrdta/f55064                                                                        
+select                                                                                              
+  ibitm,                                    /* item                 */                              
+  ibmcu,                                    /* warehouse            */                              
+  iblitm,                                   /* 2nd item number      */                              
+  imdsc1,                                   /* description          */                              
+  imuom1,                                   /* stocking u/m         */                              
+  0,                                        /* 01 cost              */                              
+  0,                                        /* 07 cost              */                              
+  ' ',                                      /* fiscal year          */                              
+  0,                                        /* usage Apr            */                              
+  0,                                        /* usage May            */                              
+  0,                                        /* usage Jun            */                              
+  0,                                        /* usage Jul            */                              
+  0,                                        /* usage Aug            */                              
+  0,                                        /* usage Sep            */                              
+  0,                                        /* usage Oct            */                              
+  0,                                        /* usage Nov            */                              
+  0,                                        /* usage Dec            */                              
+  0,                                        /* usage Jan            */                              
+  0,                                        /* usage Feb            */                              
+  0                                         /* usage Mar            */                              
+                                                                                                    
+from f4102, F4101                                                                                   
+                                                                                                    
+where                                                                                               
+  imitm     = ibitm          and                                                                    
+  ibstkt    = 'P'            and            /* stocking type        */                              
+  ibmcu     = '         310'                /* warehouse            */                              

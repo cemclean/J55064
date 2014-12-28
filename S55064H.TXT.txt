@@ -1,0 +1,83 @@
+/*----------------------------------------------------------------*/                                
+/*                                                                */                                
+/* List of raw materials 310 w/usage                              */                                
+/*                                                                */                                
+/* T23383  11.10.2014 Charlie McLean                              */                                
+/*         started                                                */                                
+/*                                                                */                                
+/*                                                                */                                
+/*----------------------------------------------------------------*/                                
+/* RUNSQLSTM (JDEOBJP/SERSRCLE) (S55064h) COMMIT(*NONE)           */                                
+/*----------------------------------------------------------------*/                                
+                                                                                                    
+  drop table serusrdta/f55064H;                                                                     
+                                                                                                    
+create table serusrdta/f55064H (                                                                    
+  X3ITM     char (30),                      /* item                 */                              
+  X3MCU     char (30),                      /* warehouse            */                              
+  X3LITM    char (30),                      /* 2nd item number      */                              
+  X3DSC1    char (30),                      /* description          */                              
+  X3UOM1    char (30),                      /* stocking u/m         */                              
+  X3CST01   char (30),                      /* 01 cost              */                              
+  X3CST07   char (30),                      /* 07 cost              */                              
+  X3FY      char (30),                      /* fiscal year          */                              
+  X3SQ01    char (30),                      /* usage Apr            */                              
+  X3SQ02    char (30),                      /* usage May            */                              
+  X3SQ03    char (30),                      /* usage Jun            */                              
+  X3SQ04    char (30),                      /* usage Jul            */                              
+  X3SQ05    char (30),                      /* usage Aug            */                              
+  X3SQ06    char (30),                      /* usage Sep            */                              
+  X3SQ07    char (30),                      /* usage Oct            */                              
+  X3SQ08    char (30),                      /* usage Nov            */                              
+  X3SQ09    char (30),                      /* usage Dec            */                              
+  X3SQ10    char (30),                      /* usage Jan            */                              
+  X3SQ11    char (30),                      /* usage Feb            */                              
+  X3SQ12    char (30))                      /* usage Mar            */                              
+  rcdfmt i55064H;                                                                                   
+                                                                                                    
+label on table serusrdta/f55064H                                                                    
+  is 'Raw Materials 310 Header';                                                                    
+label on serusrdta/f55064H  (                                                                       
+  X3ITM     text is 'item                 ',                                                        
+  X3MCU     text is 'warehouse            ',                                                        
+  X3LITM    text is '2nd item number      ',                                                        
+  X3DSC1    text is 'description          ',                                                        
+  X3UOM1    text is 'stocking u/m         ',                                                        
+  X3CST01   text is '01 cost              ',                                                        
+  X3CST07   text is '07 cost              ',                                                        
+  X3FY      text is 'fiscal year          ',                                                        
+  X3SQ01    text is 'usage Apr            ',                                                        
+  X3SQ02    text is 'usage May            ',                                                        
+  X3SQ03    text is 'usage Jun            ',                                                        
+  X3SQ04    text is 'usage Jul            ',                                                        
+  X3SQ05    text is 'usage Aug            ',                                                        
+  X3SQ06    text is 'usage Sep            ',                                                        
+  X3SQ07    text is 'usage Oct            ',                                                        
+  X3SQ08    text is 'usage Nov            ',                                                        
+  X3SQ09    text is 'usage Dec            ',                                                        
+  X3SQ10    text is 'usage Jan            ',                                                        
+  X3SQ11    text is 'usage Feb            ',                                                        
+  X3SQ12    text is 'usage Mar            ');                                                       
+insert into serusrdta/F55064H                                                                       
+values(                                                                                             
+  'item',                                                                                           
+  'warehouse',                                                                                      
+  '2nd item number',                                                                                
+  'description',                                                                                    
+  'stocking u/m',                                                                                   
+  '01 cost',                                                                                        
+  '07 cost',                                                                                        
+  'fy',                                                                                             
+  'usage Apr',                                                                                      
+  'usage May',                                                                                      
+  'usage Jun',                                                                                      
+  'usage Jul',                                                                                      
+  'usage Aug',                                                                                      
+  'usage Sep',                                                                                      
+  'usage Oct',                                                                                      
+  'usage Nov',                                                                                      
+  'usage Dec',                                                                                      
+  'usage Jan',                                                                                      
+  'usage Feb',                                                                                      
+  'usage Mar')                                                                                      
+                                                                                                    
