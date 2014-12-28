@@ -8,7 +8,7 @@
       *                                                                                             
       *-----------------------------------------------------------------                            
      h option(*srcstmt:*nodebugio)                                                                  
-      *              sales history                                                                  
+      *              rm list                                                                  
      FF55064    UF   E           K DISK                                                             
       *              IM alternate discription                                                       
      FF4101D    IF   E           K DISK                                                             
